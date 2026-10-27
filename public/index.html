@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>igir collection report</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="viz-root">
+    <header class="topbar">
+      <h1>igir collection report</h1>
+      <div class="topbar-controls">
+        <label class="field">
+          <span>Report</span>
+          <select id="report-select"></select>
+        </label>
+        <button id="theme-toggle" class="ghost" type="button" aria-label="Toggle dark mode">◐</button>
+      </div>
+    </header>
+
+    <main>
+      <p id="loading" class="muted">Loading report…</p>
+
+      <section id="summary" class="summary" hidden>
+        <div class="hero">
+          <div class="hero-value" id="hero-value"></div>
+          <div class="hero-label">of games found across <span id="hero-dats"></span> DATs</div>
+          <div class="meter" id="hero-meter"><div class="meter-fill"></div></div>
+        </div>
+        <div class="tiles">
+          <button class="tile" data-status="FOUND" type="button">
+            <span class="tile-label"><span class="status-dot found"></span>Found</span>
+            <span class="tile-value" id="tile-found"></span>
+          </button>
+          <button class="tile" data-status="MISSING" type="button">
+            <span class="tile-label"><span class="status-dot missing"></span>Missing</span>
+            <span class="tile-value" id="tile-missing"></span>
+          </button>
+          <button class="tile" data-status="DUPLICATE" type="button">
+            <span class="tile-label"><span class="status-dot duplicate"></span>Duplicate files</span>
+            <span class="tile-value" id="tile-duplicate"></span>
+          </button>
+          <button class="tile" data-status="UNUSED" type="button">
+            <span class="tile-label"><span class="status-dot unused"></span>Unused files</span>
+            <span class="tile-value" id="tile-unused"></span>
+          </button>
+        </div>
+      </section>
+
+      <section id="dats" class="panel" hidden>
+        <div class="panel-head">
+          <h2>Completion by DAT</h2>
+          <div class="panel-controls">
+            <input id="dat-search" type="search" placeholder="Filter DATs">
+            <label class="field">
+              <span>Sort</span>
+              <select id="dat-sort">
+                <option value="pct-desc">Most complete</option>
+                <option value="pct-asc">Least complete</option>
+                <option value="missing-desc">Most missing</option>
+                <option value="total-desc">Largest</option>
+                <option value="name">Name</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <p class="muted small">Bar shows found games out of each DAT's total. Select a DAT to list its games below.</p>
+        <div id="dat-list" class="dat-list" role="list"></div>
+      </section>
+
+      <section id="games" class="panel" hidden>
+        <div class="panel-head">
+          <h2>Games and files</h2>
+          <div class="panel-controls">
+            <button id="export" class="ghost" type="button">Download CSV</button>
+          </div>
+        </div>
+        <div class="filters">
+          <input id="game-search" type="search" placeholder="Search game names or file paths">
+          <select id="status-filter" aria-label="Status">
+            <option value="">All statuses</option>
+            <option value="FOUND">Found</option>
+            <option value="MISSING">Missing</option>
+            <option value="DUPLICATE">Duplicate</option>
+            <option value="UNUSED">Unused</option>
+          </select>
+          <select id="dat-filter" aria-label="DAT"><option value="">All DATs</option></select>
+          <select id="flag-filter" aria-label="Type"><option value="">All types</option></select>
+          <button id="clear-filters" class="ghost" type="button">Clear</button>
+        </div>
+        <p id="result-count" class="muted small"></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-sort="status">Status</th>
+                <th data-sort="name">Game</th>
+                <th data-sort="dat">DAT</th>
+                <th>Type</th>
+                <th data-sort="files" class="num">Files</th>
+              </tr>
+            </thead>
+            <tbody id="game-rows"></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <button id="prev-page" class="ghost" type="button">← Prev</button>
+          <span id="page-info" class="muted"></span>
+          <button id="next-page" class="ghost" type="button">Next →</button>
+        </div>
+      </section>
+    </main>
+
+    <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
